@@ -46,10 +46,28 @@
           "type": "title",
           "settings": {
           }
+        },
+        "description_3gQbgw": {
+          "type": "description",
+          "settings": {
+          }
+        },
+        "price_rATeBA": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "mefield_LAzCXk": {
+          "type": "mefield",
+          "settings": {
+          }
         }
       },
       "block_order": [
-        "title_wb3rgc"
+        "title_wb3rgc",
+        "description_3gQbgw",
+        "price_rATeBA",
+        "mefield_LAzCXk"
       ],
       "settings": {
         "product69": "mangulica"
