@@ -3,7 +3,17 @@
 {% for block in section.blocks %}
     {%- case block.type -%}
       {%- when "title" -%}
-        <h1>{{ product.title }}</h1>
+        <div>
+            <h1>{{ product.title }}</h1>
+        </div>
+        {%- when "description" -%}
+            <p>
+                <h1>{{ product.description }}</h1>
+            </p>
+            {%- when "price" -%}
+                <p>
+                    <h1>{{ product.price }}</h1>
+                </p>
     {% endcase %}
 {% endfor %}
   
@@ -23,7 +33,22 @@
 "blocks": [
     {
         "type":"title",
-        "name": "Product",
+        "name": "title",
+        "limit":1
+    },
+    {
+        "type":"description",
+        "name": "description",
+        "limit":1
+    },
+    {
+        "type":"price",
+        "name": "price",
+        "limit":1
+    },
+    {
+        "type":"mefield",
+        "name": "metafield",
         "limit":1
     }
 ],
