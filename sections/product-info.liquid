@@ -26,7 +26,11 @@
   margin: 0;
   padding: 0;
 }
-  
+@media screen and (max-width: 749px) {
+  .collage {
+   
+  }
+}
 </style>
 
 {% assign product = section.settings.product_reference %}
@@ -60,6 +64,10 @@
              {{ product.price | money }}
             </p>
           </div>
+          {%- when 'text_block' -%}
+            <div>
+                {{ block.settings.bla }}
+            </div>
         
         {%- when 'product_features' -%}
         {% if product.metafields.custom.prod_features.value != blank %}
@@ -99,6 +107,17 @@
     {
       "type": "product_features",
       "name": "product_feature"
+     },
+     {
+        "type": "text_block",
+        "name": "text block",
+        "settings": [
+        {
+            "type": "richtext",
+            "id": "1",
+            "label": "Add text please"
+        }]
+
      }
   ],
   "settings": [
