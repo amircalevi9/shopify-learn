@@ -56,21 +56,15 @@
           "type": "price",
           "settings": {
           }
-        },
-        "mefield_LAzCXk": {
-          "type": "mefield",
-          "settings": {
-          }
         }
       },
       "block_order": [
         "title_wb3rgc",
         "description_3gQbgw",
-        "price_rATeBA",
-        "mefield_LAzCXk"
+        "price_rATeBA"
       ],
       "settings": {
-        "product69": "mangulica"
+        "product_reference": "mangulica"
       }
     },
     "featured_collection": {

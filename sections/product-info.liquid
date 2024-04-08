@@ -50,6 +50,13 @@
              {{ product.title }}
             </h1>
           </div>
+
+     {% for variant in product.variants %}
+<label>
+ <img>
+</label>
+<input/>
+{% endfor %}
         
         {%- when 'description' -%}
          <div>
@@ -83,6 +90,10 @@
   </div>
 </div>
 </section>
+
+<script>
+  
+</script>
 
 {% schema %}
 {
