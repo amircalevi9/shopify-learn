@@ -26,10 +26,40 @@
   margin: 0;
   padding: 0;
 }
-@media screen and (max-width: 749px) {
-  .collage {
-   
-  }
+
+  
+.variant-picker{
+  display: flex;
+  border: 0; 
+  padding:0; 
+  margin: 0 0 20px 0;
+}
+.variant-picker__variant-input{
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  z-index: -1;
+  position: absolute;
+}
+.variant-picker__variant-label{
+  height:52px; 
+  width:64px; 
+  background-size: cover;
+  transition: transform 0.3s ease;
+  cursor:pointer;
+}
+.variant-picker__variant-label:hover{
+  transform: scale(1.1);
+}
+.variant-picker__container{
+  display:flex; 
+  flex-direction: column;
+  align-items: center;
+  margin-right:16px; 
+  padding-bottom:5px;
+}
+.variant-picker__chosen{
+  border-bottom:2px solid #ffffff;
 }
 </style>
 
@@ -38,7 +68,7 @@
 <section class="section-container">
 <div class="product-info">
   <div class="product-image">
-    <img src="{{ product.media[0] | image_url }}" width="100%;" height="100%;">
+    <img id="current-variant-feature-media" src="{{ product.media[0] | image_url }}" width="100%;" height="100%;">
   </div>
   <div>
     {% for block in section.blocks %}
@@ -51,12 +81,28 @@
             </h1>
           </div>
 
-     {% for variant in product.variants %}
-<label>
- <img>
-</label>
-<input/>
-{% endfor %}
+        {% when 'variant_picker' %}
+         <div class="variant-picker">
+            {% for variant in product.variants %}
+                 {% assign imgUrl = variant.featured_image %}
+                 <div class="variant-picker__container {% if variant.id == product.selected_or_first_available_variant.id %}variant-picker__chosen{% endif %}">
+                   <input
+                    class="variant-picker__variant-input"
+                    data-variant-src="{{ imgUrl | image_url }}" 
+                    data-current-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    type="radio" 
+                    id="{{ variant.id }}"
+                    name="{{ variant.title }}" 
+                    value="{{ variant.id }}"
+                    {% if variant.id == product.selected_or_first_available_variant.id %}checked{% endif %}>
+                   <label
+                    class="variant-picker__variant-label"
+                    style="background-image: url('{{ imgUrl | image_url }}');"
+                    for="{{ variant.id }}">
+                   </label>
+                 </div>
+            {% endfor %}
+          </div>
         
         {%- when 'description' -%}
          <div>
@@ -71,10 +117,6 @@
              {{ product.price | money }}
             </p>
           </div>
-          {%- when 'text_block' -%}
-            <div>
-                {{ block.settings.bla }}
-            </div>
         
         {%- when 'product_features' -%}
         {% if product.metafields.custom.prod_features.value != blank %}
@@ -92,7 +134,33 @@
 </section>
 
 <script>
-  
+ let inputs = document.getElementsByClassName("variant-picker__variant-input");
+ let ar = Array.from(inputs);
+  ar.forEach(function(variantPicker) {
+  variantPicker.addEventListener('click', ()=>{
+  handleBorderSelectedVariant(variantPicker)
+  handleImage(variantPicker);
+})
+})
+
+  function handleImage(picker){
+  let src = picker.getAttribute('data-variant-src')
+  let currentImage = document.getElementById("current-variant-feature-media")
+  currentImage.src = src;
+ }
+  function handleBorderSelectedVariant(picker) {
+    let inputs = document.getElementsByClassName("variant-picker__variant-input");
+    Array.from(inputs).forEach(function(element) {     
+        const selectedVariant = element === picker;
+        const parentElement = element.parentElement;
+
+        if (selectedVariant) {
+            parentElement?.classList.add('variant-picker__chosen');
+        } else {
+            parentElement?.classList.remove('variant-picker__chosen');
+        }
+    });
+}
 </script>
 
 {% schema %}
@@ -120,15 +188,8 @@
       "name": "product_feature"
      },
      {
-        "type": "text_block",
-        "name": "text block",
-        "settings": [
-        {
-            "type": "richtext",
-            "id": "1",
-            "label": "Add text please"
-        }]
-
+      "type": "variant_picker",
+      "name": "variant_picker"
      }
   ],
   "settings": [
