@@ -47,6 +47,11 @@
           "settings": {
           }
         },
+        "variant_picker_F3ENf4": {
+          "type": "variant_picker",
+          "settings": {
+          }
+        },
         "description_3gQbgw": {
           "type": "description",
           "settings": {
@@ -56,15 +61,22 @@
           "type": "price",
           "settings": {
           }
+        },
+        "product_features_mXMdjU": {
+          "type": "product_features",
+          "settings": {
+          }
         }
       },
       "block_order": [
         "title_wb3rgc",
+        "variant_picker_F3ENf4",
         "description_3gQbgw",
-        "price_rATeBA"
+        "price_rATeBA",
+        "product_features_mXMdjU"
       ],
       "settings": {
-        "product_reference": "mangulica"
+        "product_reference": "selling-plans-ski-wax"
       }
     },
     "featured_collection": {
