@@ -68,9 +68,9 @@
 <section class="section-container">
 <div class="product-info">
   <div class="product-image">
-    <img id="current-variant-feature-media" src="{{ product.media[0] | image_url }}" width="100%;" height="100%;">
+    <img id="current-variant-feature-media" src="{{ product.media[0] | image_url }}" width="50%;" height="50%;">
   </div>
-  <div>
+  <div style="width: 50%;">
     {% for block in section.blocks %}
       {%- case block.type -%}
         
@@ -113,9 +113,9 @@
 
         {%- when 'price' -%}
           <div>
-            <p class="product-paragrpah">
+            <div class="product-paragrpah">
              {{ product.price | money }}
-            </p>
+            </div>
           </div>
         
         {%- when 'product_features' -%}
@@ -210,7 +210,7 @@
           "type": "description"
         },
         {
-          "type": "price" 
+          "type": "price"
         },
         {
           "type": "product_features"
