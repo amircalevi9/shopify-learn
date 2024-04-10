@@ -9,7 +9,6 @@
 .product-info{
   display: flex;
   flex-direction: row;
-  gap:50px;
   padding-left: 10%;
   padding-right: 10%;
 }
@@ -71,7 +70,7 @@
 <section class="section-container">
 <div class="product-info">
   <div class="product-image">
-    <img id="current-variant-feature-media" src="{{ product.media[0] | image_url }}" width="70%;" height="70%;">
+    <img id="current-variant-feature-media" src="{{ product.media[0] | image_url }}" width="80%;" height="80%;">
   </div>
   <div style="width: 50%;">
     {% for block in section.blocks %}
