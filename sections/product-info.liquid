@@ -29,7 +29,6 @@
   padding: 0;
 }
 
-  
 .variant-picker{
   display: flex;
   border: 0; 
@@ -63,10 +62,16 @@
 .variant-picker__chosen{
   border-bottom:2px solid #ffffff;
 }
+
+.added-to-cart {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
 </style>
 
 {% assign product = section.settings.product_reference %}
-
 <section class="section-container">
 <div class="product-info">
   <div class="product-image">
@@ -119,6 +124,37 @@
              {{ product.price | money }}
             </div>
           </div>
+
+          {% when 'button' %}       
+              {% form 'product', product %}
+                <div class="variant-picker">
+                   {% for variant in product.variants %}
+                     {% assign imgUrl = variant.featured_image %}
+                        <div class="variant-picker__container {% if variant.id == product.selected_or_first_available_variant.id %}variant-picker__chosen{% endif %}">
+                          <input
+                           class="variant-picker__variant-input"
+                           data-variant-src="{{ imgUrl | image_url }}" 
+                           data-current-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                           type="radio" 
+                           id="{{ variant.id }}"
+                           name="id" 
+                           value="{{ variant.id }}"
+                           {% if variant.id == product.selected_or_first_available_variant.id %}checked{% endif %}>
+                          <label
+                           class="variant-picker__variant-label"
+                           style="background-image: url('{{ imgUrl | image_url }}');"
+                           for="{{ variant.id }}">
+                          </label>
+                        </div>
+                   {% endfor %}
+                   </div>
+                 <div class="product-quantity">
+                   <label for="quantity">Quantity</label>
+                   <input name="quantity" id="quantity" value="1">
+                 </div>
+       
+                 <button class="button product-add" type="submit">Add to cart</button>
+               {% endform %}
         
         {%- when 'product_features' -%}
         {% if product.metafields.custom.prod_features.value != blank %}
@@ -163,6 +199,32 @@
         }
     });
 }
+
+const addToCartForms = document.querySelectorAll('form[action="/cart/add"]');
+
+addToCartForms.forEach((form) => {
+  form.addEventListener("submit", async (event) => {
+    // Prevent normal submission
+    event.preventDefault();
+
+    // Submit form with ajax
+    await fetch("/cart/add", {
+      method: "post",
+      body: new FormData(form),
+    });
+
+    // Get new cart object
+    const res = await fetch("/cart.json");
+    const cart = await res.json();
+
+    // Update cart count
+    document.querySelectorAll(".cart-count").forEach((el) => {
+      el.textContent = cart.item_count;
+    });
+
+    window.location.href = '/cart';
+  });
+});
 </script>
 
 {% schema %}
@@ -192,6 +254,10 @@
      {
       "type": "variant_picker",
       "name": "variant_picker"
+     },
+     {
+       "type":"button",
+       "name":"button"
      }
   ],
   "settings": [
